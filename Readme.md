@@ -64,12 +64,12 @@ Check that Vault is running
 ---
 **Azure Setup**
 
-Set the environment variables for Azure:
-`export AZURE_TENANT_ID=<TENANT_ID>`
-`export AZURE_SUBSCRIPTION_ID=<SUBSCRIPTION_ID>`
+Set the environment variables for Azure:  
+`export AZURE_TENANT_ID=<TENANT_ID>`  
+`export AZURE_SUBSCRIPTION_ID=<SUBSCRIPTION_ID>`  
 
-Log in to Azure CLI
-`az login --tenant <TENANT_ID>`
+Log in to Azure CLI:  
+`az login --tenant <TENANT_ID>`  
 
 Create a resource group and a Key Vault in Azure.
 ```
@@ -92,17 +92,19 @@ az ad sp create-for-rbac --name $SP_NAME --role Contributor --scopes /subscripti
 
 # Output will include appId, displayName, password, and tenant
 ```
-**Store the output securely**, as it contains sensitive information. Example:
+**Store the output securely**, as it contains sensitive information. Example:  
+```
 {
   "appId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
   "displayName": "vault-demo-sp",
   "password": "xxxxxxxxxxxxxxxxxxx",
   "tenant": "xxxxxxxx-xxxx-xxxxx-xxxxx-xxxxxxxxxxxx"
 }
+```
 
-Set the next environment variables for Azure:
-`export AZURE_CLIENT_ID=<appId>`
-`export AZURE_CLIENT_SECRET=<password>`
+Set the next environment variables for Azure:  
+`export AZURE_CLIENT_ID=<appId>`  
+`export AZURE_CLIENT_SECRET=<password>`  
 
 Assign the Key Vault Administrator role to the Service Principal in Azure.
 ---    
@@ -124,9 +126,9 @@ Enable Secrets Sync in the Vault UI and create a destination with the following:
 - Azure Client ID
 - Azure Client Secret
 
-Then, create a secret and sync it
-`vault kv put secret/my-demo-secret value="This is a secret value"`
-Define a Vault Sync Policy, and apply it.
+Then, create a secret and sync it:  
+`vault kv put secret/my-demo-secret value="This is a secret value"`  
+Define a Vault Sync Policy, and apply it.  
 ```
 path "secret/data/my-demo-secret" {
   capabilities = ["read"]
