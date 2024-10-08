@@ -1,0 +1,23 @@
+#!/bin/bash
+export VAULT_PORT=8200
+export VAULT_ADDR="http://127.0.0.1:${VAULT_PORT}"
+export VAULT_TOKEN="root"
+
+VAULT_LICENSE=$(cat "vault.hclic")
+CONTAINER_NAME=vault-enterprise
+
+#Check Docker installation
+if [[ $(docker version) ]]
+then
+    echo "Docker version found: $(docker version)"
+    # Perform additional actions here
+else
+    brew install --cask docker
+fi
+docker pull hashicorp/vault-enterprise
+docker run -d --rm --name $CONTAINER_NAME --cap-add=IPC_LOCK \
+-e "VAULT_DEV_ROOT_TOKEN_ID=${VAULT_TOKEN}" \
+-e "VAULT_DEV_LISTEN_ADDRESS=:${VAULT_PORT}" \
+-e "VAULT_LICENSE=${VAULT_LICENSE}" \
+-e "VAULT_LOG_LEVEL=trace" \
+-p $VAULT_PORT:$VAULT_PORT hashicorp/vault-enterprise:latest

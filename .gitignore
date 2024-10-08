@@ -1,0 +1,20 @@
+# Ignore the .terraform directory where providers are stored
+.terraform/
+
+# Optionally ignore all Terraform state files and backup files
+*.tfstate
+*.tfstate.*
+*.backup
+.DS_Store
+
+# Ignore Terraform plan files
+*.tfplan
+
+# Ignore .terraform.lock.hcl if you don't want to commit the lock file
+.terraform.lock.hcl
+*/.terraform.*
+*/.terraform/*
+*/terraform.tfvars
+*.pub
+*/key-pair/*
+key-pair
