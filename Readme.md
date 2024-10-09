@@ -55,21 +55,28 @@ docker run -d --rm --name $CONTAINER_NAME --cap-add=IPC_LOCK \
 -p $VAULT_PORT:$VAULT_PORT hashicorp/vault-enterprise:latest
 ```
 On the terminal, check that the environment variables are set correctly, if not, then set them.
-`echo $VAULT_ADDR`
-`echo $VAULT_TOKEN`
+```
+echo $VAULT_ADDR
+echo $VAULT_TOKEN
+```
 
-Check that Vault is running
-`vault status`
+Check that Vault is running.
+```
+vault status
+```
 
 ---
 **Azure Setup**
 
 Set the environment variables for Azure:  
-`export AZURE_TENANT_ID=<TENANT_ID>`  
-`export AZURE_SUBSCRIPTION_ID=<SUBSCRIPTION_ID>`  
+```export AZURE_TENANT_ID=<TENANT_ID>
+export AZURE_SUBSCRIPTION_ID=<SUBSCRIPTION_ID>
+```
 
 Log in to Azure CLI:  
-`az login --tenant <TENANT_ID>`  
+```
+az login --tenant <TENANT_ID>
+```
 
 Create a resource group and a Key Vault in Azure.
 ```
@@ -103,10 +110,13 @@ az ad sp create-for-rbac --name $SP_NAME --role Contributor --scopes /subscripti
 ```
 
 Set the next environment variables for Azure:  
-`export AZURE_CLIENT_ID=<appId>`  
-`export AZURE_CLIENT_SECRET=<password>`  
+```
+export AZURE_CLIENT_ID=<appId>
+export AZURE_CLIENT_SECRET=<password>
+```
 
 Assign the Key Vault Administrator role to the Service Principal in Azure.
+
 ---    
 **Vault Setup**
 
@@ -127,18 +137,23 @@ Enable Secrets Sync in the Vault UI and create a destination with the following:
 - Azure Client Secret
 
 Then, create a secret:  
-`vault kv put secret/my-demo-secret foo="bar"`  
-
+```
+vault kv put secret/my-demo-secret foo="bar"
+```
 Create a sync job in the UI for the secret sync destination created before.
 
 Check the current value of the secret in Vault
-`vault kv get secret/my-demo-secret`
-
+```
+vault kv get secret/my-demo-secret
+```
 Change the value of the secret in Vault
-`vault kv put secret/my-demo-secret zip="zap"`
-
+```
+vault kv put secret/my-demo-secret zip="zap"
+```
 Check the current value of the secret in Vault
-`vault kv get secret/my-demo-secret`
+```
+vault kv get secret/my-demo-secret
+```
 
 Check the current value of the secret in Azure Key Vault UI
 
