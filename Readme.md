@@ -126,21 +126,16 @@ Enable Secrets Sync in the Vault UI and create a destination with the following:
 - Azure Client ID
 - Azure Client Secret
 
-Then, create a secret and sync it:  
-`vault kv put secret/my-demo-secret value="This is a secret value"`  
-Define a Vault Sync Policy, and apply it.  
-```
-path "secret/data/my-demo-secret" {
-  capabilities = ["read"]
-}
-```
+Then, create a secret:  
+`vault kv put secret/my-demo-secret foo="bar"`  
+
 Create a sync job in the UI for the secret sync destination created before.
 
 Check the current value of the secret in Vault
 `vault kv get secret/my-demo-secret`
 
 Change the value of the secret in Vault
-`vault kv put secret/my-demo-secret zip=zap`
+`vault kv put secret/my-demo-secret zip="zap"`
 
 Check the current value of the secret in Vault
 `vault kv get secret/my-demo-secret`
