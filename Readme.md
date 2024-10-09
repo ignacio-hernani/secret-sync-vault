@@ -68,17 +68,14 @@ vault status
 ---
 **Azure Setup**
 
-Set the environment variables for Azure:  
-```export AZURE_TENANT_ID=<TENANT_ID>
+1. Set the environment variables for Azure and login to the Azure CLI:  
+```
+export AZURE_TENANT_ID=<TENANT_ID>
 export AZURE_SUBSCRIPTION_ID=<SUBSCRIPTION_ID>
-```
 
-Log in to Azure CLI:  
+az login --tenant $AZURE_TENANT_ID
 ```
-az login --tenant <TENANT_ID>
-```
-
-Create a resource group and a Key Vault in Azure.
+2. Create a resource group and a Key Vault in Azure.
 ```
 # Variables
 RESOURCE_GROUP="vault-demo-rg"
@@ -92,7 +89,7 @@ az group create --name $RESOURCE_GROUP --location $LOCATION
 az keyvault create --name $KEY_VAULT_NAME --resource-group $RESOURCE_GROUP --location $LOCATION
 ```
 
-Create an Azure Service Principal. Vault needs credentials to access Azure resources.
+3. Create an Azure Service Principal. Vault needs credentials to access Azure resources.
 ```
 SP_NAME="vault-demo-sp"
 az ad sp create-for-rbac --name $SP_NAME --role Contributor --scopes /subscriptions/YOUR_SUBSCRIPTION_ID
@@ -109,26 +106,21 @@ az ad sp create-for-rbac --name $SP_NAME --role Contributor --scopes /subscripti
 }
 ```
 
-Set the next environment variables for Azure:  
+4. Set the next environment variables for Azure:  
 ```
 export AZURE_CLIENT_ID=<appId>
 export AZURE_CLIENT_SECRET=<password>
 ```
 
-Assign the Key Vault Administrator role to the Service Principal in Azure.
+5. Assign the Key Vault Administrator role to the Service Principal in Azure UI.
 
 ---    
 **Vault Setup**
 
-Configure Azure Secrets Engine in Vault
+6. Configure Secrets Enginen and Secret Sybc in Vault
 ```
-vault secrets enable azure
-
-vault write azure/config \
-    subscription_id="$AZURE_SUBSCRIPTION_ID" \
-    tenant_id="$AZURE_TENANT_ID" \
-    client_id="$AZURE_CLIENT_ID" \
-    client_secret="$AZURE_CLIENT_SECRET"
+# If you do not already have a KVv2 secret to sync, mount a new KVv2 secrets engine.
+vault secrets enable -path='secret' kv-v2
 ```
 Enable Secrets Sync in the Vault UI and create a destination with the following:
 - Azure Key Vault URI
@@ -136,27 +128,25 @@ Enable Secrets Sync in the Vault UI and create a destination with the following:
 - Azure Client ID
 - Azure Client Secret
 
-Then, create a secret:  
+7. Create a secret:  
 ```
 vault kv put secret/my-demo-secret foo="bar"
 ```
-Create a sync job in the UI for the secret sync destination created before.
+8. Activate sync in the Vault UI for the secret sync destination created before.
 
-Check the current value of the secret in Vault
+9. Check the current value of the secret in Vault
 ```
 vault kv get secret/my-demo-secret
 ```
-Change the value of the secret in Vault
+10. Change the value of the secret in Vault
 ```
 vault kv put secret/my-demo-secret zip="zap"
 ```
-Check the current value of the secret in Vault
+11. Check the current value of the secret in Vault
 ```
 vault kv get secret/my-demo-secret
 ```
-
-Check the current value of the secret in Azure Key Vault UI
-
+12. Check the current value of the secret in Azure Key Vault UI
 
 ---
 ## Conclusion
