@@ -92,7 +92,7 @@ az keyvault create --name $KEY_VAULT_NAME --resource-group $RESOURCE_GROUP --loc
 3. Create an Azure Service Principal. Vault needs credentials to access Azure resources.
 ```
 SP_NAME="vault-demo-sp"
-az ad sp create-for-rbac --name $SP_NAME --role Contributor --scopes /subscriptions/YOUR_SUBSCRIPTION_ID
+az ad sp create-for-rbac --name $SP_NAME --role Contributor --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
 
 # Output will include appId, displayName, password, and tenant
 ```
@@ -112,12 +112,12 @@ export AZURE_CLIENT_ID=<appId>
 export AZURE_CLIENT_SECRET=<password>
 ```
 
-5. Assign the Key Vault Administrator role to the Service Principal in Azure UI.
+5. Assign the Key Vault Administrator role to the Service Principal in the Azure UI or CLI.
 
 ---    
 **Vault Setup**
 
-6. Configure Secrets Enginen and Secret Sybc in Vault
+6. Configure Secrets Engines and Secret Sync in Vault
 ```
 # If you do not already have a KVv2 secret to sync, mount a new KVv2 secrets engine.
 vault secrets enable -path='secret' kv-v2
