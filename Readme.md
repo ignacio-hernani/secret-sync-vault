@@ -144,7 +144,7 @@ vault kv put secret/my-demo-secret zip="zap"
 vault kv get secret/my-demo-secret
 ```
 
-You will be able to see the current version, as well as the previous versions of the secret.
+In Azure KV (and of course in HashiCorp Vault) you will now be able to see the current version of the secret, as well as the previous versions.
 
 ---
 ## Conclusion
