@@ -16,9 +16,9 @@ The customer would like to see a demo of Secret Sync. They want to use this in A
 
 **Additional Documentation**
 
-https://developer.hashicorp.com/vault/docs/sync
-https://developer.hashicorp.com/hcp/docs/vault-secrets/integrations/azure-key-vault
-https://docs.microsoft.com/en-us/azure/key-vault/general/
+https://developer.hashicorp.com/vault/docs/sync  
+https://developer.hashicorp.com/hcp/docs/vault-secrets/integrations/azure-key-vault  
+https://docs.microsoft.com/en-us/azure/key-vault/general/  
 
 ---
 ## Steps
