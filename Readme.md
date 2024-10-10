@@ -4,14 +4,8 @@
 
 The customer would like to see a demo of Secret Sync. They want to use this in Azure. So Azure as a target platform would be preferred. Things they would like to see:
 
-1. Creating a secret sync Destination
-2. Creating a secret and syncing it
-3. How can applications consume it? No need to show the application, but a description would be enough
-4. How to migrate existing secrets in Azure KV to Vault and manage them centrally using Vault
-
-**Notes**
-
-Video Backup
+1. Creating a Secret Sync destination.
+2. Creating a secret and syncing it, including updates on the secret.
 
 **Prerequisites**
 - Azure Account: Access to an Azure subscription with permissions to create resources and IAM.
@@ -113,11 +107,14 @@ export AZURE_CLIENT_SECRET=<password>
 ```
 
 5. Assign the Key Vault Administrator role to the Service Principal in the Azure UI or CLI.
+```
+az role assignment create --assignee $AZURE_CLIENT_ID --role "Key Vault Administrator" --scope /subscriptions/$AZURE_SUBSCRIPTION_ID
+```
 
 ---    
 **Vault Setup**
 
-6. Configure Secrets Engines and Secret Sync in Vault
+6. Configure Secret Sync in Vault
 ```
 # If you do not already have a KVv2 secret to sync, mount a new KVv2 secrets engine.
 vault secrets enable -path='secret' kv-v2
@@ -134,7 +131,7 @@ vault kv put secret/my-demo-secret foo="bar"
 ```
 8. Activate sync in the Vault UI for the secret sync destination created before.
 
-9. Check the current value of the secret in Vault
+9. Check the current value of the secret both in Vault and in the Azure UI.
 ```
 vault kv get secret/my-demo-secret
 ```
@@ -142,11 +139,11 @@ vault kv get secret/my-demo-secret
 ```
 vault kv put secret/my-demo-secret zip="zap"
 ```
-11. Check the current value of the secret in Vault
+11. Check the **updated** value of the secret both in Vault and in the Azure UI.
 ```
 vault kv get secret/my-demo-secret
 ```
-12. Check the current value of the secret in Azure Key Vault UI
+    You will be able to see the current version, as well as the previous versions of the secret.
 
 ---
 ## Conclusion
@@ -154,4 +151,4 @@ We've successfully:
 1. Created a secret sync destination in Azure by configuring Vault to communicate with Azure Key Vault.
 2. Created a secret in Vault and synced it to Azure Key Vault using Secrets Sync.
 3. Updated the secret in Vault and showcased quick sync to Azure Key Vault.
-By centralizing secrets in Vault, organizations can enhance security controls, streamline secret rotation, and simplify secret access across different platforms and services.
+By centralizing secrets in Vault, customers can enhance security controls, streamline secret rotation, and simplify secret access across different platforms and services.
